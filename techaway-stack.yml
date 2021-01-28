@@ -20,7 +20,7 @@ services:
        DB_PASS: ${DB_PASS}
        ADMIN_USERNAME: ${COMPANY_NAME}
        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-     network:
+     networks:
        - proxy
 networks:
   proxy:
