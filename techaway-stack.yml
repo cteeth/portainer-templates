@@ -13,7 +13,6 @@ services:
        - "traefik.http.routers.${COMPANY_NAME}.entrypoints=web"
        - "traefik.http.routers.${COMPANY_NAME}.middlewares=https-redirect@file"
        - "traefik.http.routers.${COMPANY_NAME}.rule=Host(`${COMPANY_NAME}.techaway.isildur.cosmobile.net`)"
-    
      environment:
        DB_HOST: ${DB_HOST}
        DB_NAME: ${COMPANY_NAME}-techaway
@@ -21,3 +20,8 @@ services:
        DB_PASS: ${DB_PASS}
        ADMIN_USERNAME: ${COMPANY_NAME}
        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+     network:
+       - proxy
+networks:
+  proxy:
+    external: true
