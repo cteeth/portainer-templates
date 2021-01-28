@@ -20,7 +20,9 @@ services:
        DB_PASS: ${DB_PASS}
        ADMIN_USERNAME: ${COMPANY_NAME}
        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+     networks:
+       
 networks:
-  outside:
+  default:
     external:
       name: proxy
