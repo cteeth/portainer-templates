@@ -14,7 +14,7 @@ services:
       DB_USER: ${COMPANY_NAME}
       DB_PASS: ${DB_PASS}
     networks:
-      - proxy
+      - default
       
   migration_caller:
     image: registry.cosmobile.dev/migration_caller:latest
@@ -26,9 +26,11 @@ services:
       DB_USER: ${COMPANY_NAME}
       DB_PASS: ${DB_PASS}
       ADMIN_USERNAME: ${COMPANY_NAME}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}    
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    networks:
+      - default
       
 networks:
-  proxy:
+  default:
     external:
       name: proxy
