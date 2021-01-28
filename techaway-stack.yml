@@ -1,26 +1,36 @@
 version: '2.4'
 
 services:
-   techaway:
-     image: registry.cosmobile.dev/techaway-web:latest
-     restart: always
-     labels:
-       - "traefik.http.services.${COMPANY_NAME}.loadbalancer.server.port=80"
-       - "traefik.http.routers.${COMPANY_NAME}-secure.entrypoints=websecure"
-       - "traefik.http.routers.${COMPANY_NAME}-secure.middlewares=secured@file"
-       - "traefik.http.routers.${COMPANY_NAME}-secure.rule=Host(`${COMPANY_NAME}.techaway.isildur.cosmobile.net`)"
-       - "traefik.http.routers.${COMPANY_NAME}-secure.tls.certresolver=letsencryptchallenge"
-       - "traefik.http.routers.${COMPANY_NAME}.entrypoints=web"
-       - "traefik.http.routers.${COMPANY_NAME}.middlewares=https-redirect@file"
-       - "traefik.http.routers.${COMPANY_NAME}.rule=Host(`${COMPANY_NAME}.techaway.isildur.cosmobile.net`)"
-     environment:
-       DB_HOST: ${DB_HOST}
-       DB_NAME: ${COMPANY_NAME}-techaway
-       DB_USER: ${COMPANY_NAME}
-       DB_PASS: ${DB_PASS}
-       ADMIN_USERNAME: ${COMPANY_NAME}
-       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-       
+  techaway:
+    image: registry.cosmobile.dev/techaway-web:latest
+    restart: always
+    labels:
+      - "traefik.http.services.${COMPANY_NAME}.loadbalancer.server.port=80"
+      - "traefik.http.routers.${COMPANY_NAME}-secure.entrypoints=websecure"
+      - "traefik.http.routers.${COMPANY_NAME}-secure.middlewares=secured@file"
+      - "traefik.http.routers.${COMPANY_NAME}-secure.rule=Host(`${COMPANY_NAME}.techaway.isildur.cosmobile.net`)"
+      - "traefik.http.routers.${COMPANY_NAME}-secure.tls.certresolver=letsencryptchallenge"
+      - "traefik.http.routers.${COMPANY_NAME}.entrypoints=web"
+      - "traefik.http.routers.${COMPANY_NAME}.middlewares=https-redirect@file"
+      - "traefik.http.routers.${COMPANY_NAME}.rule=Host(`${COMPANY_NAME}.techaway.isildur.cosmobile.net`)"
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${COMPANY_NAME}-techaway
+      DB_USER: ${COMPANY_NAME}
+      DB_PASS: ${DB_PASS}
+      
+  migration_caller:
+    image: registry.cosmobile.dev/migration_caller:latest
+    environment:
+      MIGRATION_URL: http://internal.automator.isildur.cosmobile.net/migration
+      TOPIC: tech-away
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${COMPANY_NAME}-techaway
+      DB_USER: ${COMPANY_NAME}
+      DB_PASS: ${DB_PASS}
+      ADMIN_USERNAME: ${COMPANY_NAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}    
+      
 networks:
   default:
     external:
