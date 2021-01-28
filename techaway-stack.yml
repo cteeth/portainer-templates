@@ -13,6 +13,8 @@ services:
       DB_NAME: ${COMPANY_NAME}-techaway
       DB_USER: ${COMPANY_NAME}
       DB_PASS: ${DB_PASS}
+    networks:
+      - proxy
       
   migration_caller:
     image: registry.cosmobile.dev/migration_caller:latest
@@ -27,6 +29,6 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}    
       
 networks:
-  default:
+  proxy:
     external:
       name: proxy
